@@ -2,25 +2,25 @@
 
 ## 1. Fundações
 
-- [ ] 1.1 Criar `adaptlab/{data,training,evaluation,serving}`, `scripts/`, `notebooks/`, `api/`, `ui/`, `reports/`, `runs/` e `docs/learn/`; verificar com `git status`
-- [ ] 1.2 Confirmar e fixar versões (torch CPU local, transformers, datasets, trl, peft, scikit-learn, fastapi, pytest, Ruff; bitsandbytes só no notebook); verificar a instalação local sem CUDA
-- [ ] 1.3 Escrever `docs/learn/00-visao-geral.md` e `01-quando-fazer-fine-tuning.md`; verificar que o diagrama do fluxo corresponde aos scripts
+- [x] 1.1 Criar `adaptlab/{data,training,evaluation,serving}`, `scripts/`, `notebooks/`, `api/`, `ui/`, `reports/`, `runs/` e `docs/learn/`; verificar com `git status`
+- [x] 1.2 Confirmar e fixar versões (torch CPU local, transformers, datasets, trl, peft, scikit-learn, fastapi, pytest, Ruff; bitsandbytes só no notebook); verificar a instalação local sem CUDA
+- [x] 1.3 Escrever `docs/learn/00-visao-geral.md` e `01-quando-fazer-fine-tuning.md`; verificar que o diagrama do fluxo corresponde aos scripts
 
 ## 2. Dataset
 
-- [ ] 2.1 Definir o schema de saída (Pydantic) e os cenários/templates com o léxico PT-AO, ruído, PT/EN, incompletos e escalonamento; verificar a validação com exemplos manuais
-- [ ] 2.2 Implementar `prepare_data.py` (gerador ≥500 com seed, estatísticas, validação de entidades); verificar a reprodutibilidade e a cobertura mínima
-- [ ] 2.3 Implementar os splits por template, a detecção de duplicados e quase-duplicados e o hash do teste; verificar com teste de fuga artificial
+- [x] 2.1 Definir o schema de saída (Pydantic) e os cenários/templates com o léxico PT-AO, ruído, PT/EN, incompletos e escalonamento; verificar a validação com exemplos manuais
+- [x] 2.2 Implementar `prepare_data.py` (gerador ≥500 com seed, estatísticas, validação de entidades); verificar a reprodutibilidade e a cobertura mínima
+- [x] 2.3 Implementar os splits por template, a detecção de duplicados e quase-duplicados e o hash do teste; verificar com teste de fuga artificial
 - [ ] 2.4 Fazer a revisão humana de uma amostra e registar as decisões; escrever o dataset card; verificar a validação do card
-- [ ] 2.5 Escrever `docs/learn/02-dataset-sintetico-e-fugas.md`; verificar com as estatísticas reais
+- [x] 2.5 Escrever `docs/learn/02-dataset-sintetico-e-fugas.md`; verificar com as estatísticas reais
 
 ## 3. Treino
 
-- [ ] 3.1 Implementar o formato conversacional, o chat template e a loss completion-only; verificar com teste que imprime e confirma os tokens mascarados
-- [ ] 3.2 Implementar `train.py` com config, `--dry-run` em CPU, erro claro sem CUDA no QLoRA e tracking JSON; verificar o dry-run localmente
+- [x] 3.1 Implementar o formato conversacional, o chat template e a loss completion-only; verificar com teste que imprime e confirma os tokens mascarados
+- [x] 3.2 Implementar `train.py` com config, `--dry-run` em CPU, erro claro sem CUDA no QLoRA e tracking JSON; verificar o dry-run localmente
 - [ ] 3.3 Fazer a selecção do modelo base: zero-shot no dev em ≥2 candidatos (CPU/amostra ou notebook) com tabela de licenças e memória; verificar a tabela em `reports/`
 - [ ] 3.4 Criar o notebook GPU com versões fixadas (treino, avaliação, exportação); verificar a execução no Colab/Kaggle, ou registar a pendência
-- [ ] 3.5 Escrever `docs/learn/03-tokenizacao-e-chat-templates.md`, `04-loss-mascarada-completion-only.md`, `05-lora-por-dentro.md`, `06-quantizacao-e-qlora.md` e `07-hiperparametros-e-dev-set.md`; verificar os exemplos de tokens com o dry-run
+- [x] 3.5 Escrever `docs/learn/03-tokenizacao-e-chat-templates.md`, `04-loss-mascarada-completion-only.md`, `05-lora-por-dentro.md`, `06-quantizacao-e-qlora.md` e `07-hiperparametros-e-dev-set.md`; verificar os exemplos de tokens com o dry-run
 
 ## 4. Avaliação
 

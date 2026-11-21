@@ -1,0 +1,52 @@
+# Configuração de treino LoRA/QLoRA do AdaptLab.
+# Usada por scripts/train.py. Todos os campos são registados em runs/<id>/config.json.
+
+model:
+  # Candidato provisório (ver reports/model_selection.md). Final só depois da medição zero-shot no dev.
+  name: Qwen/Qwen2.5-0.5B-Instruct
+  # Commit exacto do modelo base (campo "sha" da API do Hugging Face, medido em 2026-11-20).
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  max_length: 512
+
+data:
+  dir: data/processed
+  train_file: train.jsonl
+  dev_file: dev.jsonl
+  # O teste NUNCA aparece aqui: só scripts/evaluate.py o lê, com verificação de hash.
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  bias: none
+
+# none: LoRA em bf16/fp32. nf4: QLoRA 4-bit (exige CUDA e bitsandbytes; só no notebook).
+quantization: none
+
+training:
+  learning_rate: 2.0e-4
+  num_train_epochs: 3
+  per_device_train_batch_size: 8
+  gradient_accumulation_steps: 2
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  logging_steps: 10
+  eval_strategy: epoch
+  save_strategy: "no"
+  seed: 42
+  # Loss só nos tokens da resposta do assistente (completion-only).
+  completion_only_loss: true
+
+# Usado só pelo --dry-run (CPU): modelo minúsculo construído localmente com o tokenizer real.
+dry_run:
+  sample_size: 8
+  max_steps: 2
+  tiny_hidden_size: 32
+  tiny_layers: 1
+  tiny_heads: 2
+  tiny_kv_heads: 1
+  tiny_intermediate: 64
+
+tracking:
+  runs_dir: runs
