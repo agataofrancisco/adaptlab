@@ -1,0 +1,138 @@
+{
+  "mode": "evaluate",
+  "approach": "rules",
+  "split": "dev",
+  "final": false,
+  "limit": 0,
+  "seeds": 1,
+  "examples": 180,
+  "lora_run": null,
+  "model": {
+    "name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "bootstrap_ci": {
+    "macro_f1_intent": [
+      0.7728,
+      0.8809
+    ],
+    "high_risk_recall": [
+      0.4898,
+      0.7556
+    ]
+  },
+  "metrics": {
+    "n": 180,
+    "macro_f1_intent": 0.8351,
+    "entity_f1": 0.9696,
+    "entity_precision": 0.9409,
+    "entity_recall": 1.0,
+    "json_valid_rate": 1.0,
+    "high_risk_recall": 0.6275,
+    "high_risk_positives": 51,
+    "latency_mean_s": 0.0005,
+    "latency_p50_s": 0.0003,
+    "output_tokens_mean": 0.0,
+    "confusion_labels": [
+      "recarga",
+      "avaria_rede",
+      "faturacao",
+      "portabilidade",
+      "cancelamento",
+      "pacote_dados",
+      "outro",
+      "__invalid__"
+    ],
+    "confusion": [
+      [
+        31,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        8,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        0,
+        0,
+        22,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        31,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        12,
+        0,
+        17,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        30,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        19,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "errors_by_gold_intent": {
+      "avaria_rede": 5,
+      "cancelamento": 17,
+      "faturacao": 1,
+      "pacote_dados": 2,
+      "portabilidade": 1,
+      "recarga": 1
+    }
+  },
+  "started_utc": "2026-11-21T06:58:36.129750+00:00"
+}

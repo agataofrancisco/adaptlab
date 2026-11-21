@@ -1,0 +1,14 @@
+# Configuração da avaliação (scripts/evaluate.py e scripts/evaluate.py --report).
+
+# Margem mínima (macro-F1 no DEV) que o LoRA tem de ganhar à melhor baseline para não ser bloqueado.
+stop_margin: 0.02
+
+# Few-shot: k exemplos fixos do treino, escolhidos com a seed abaixo.
+few_shot_k: 5
+seed: 42
+
+# Geração (greedy). O JSON esperado tem ~60 tokens.
+max_new_tokens: 96
+
+# Bootstrap sobre os exemplos avaliados (IC 95%).
+bootstrap_samples: 1000

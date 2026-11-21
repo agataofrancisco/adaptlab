@@ -1,0 +1,35 @@
+{
+  "examples": 8,
+  "masking": {
+    "contiguous_labels": true,
+    "example_index": 0,
+    "labeled_text": "{\"intent\": \"recarga\", \"priority\": \"baixa\", \"entities\": {\"numero\": null, \"valor\": \"1 mil kwanzas\", \"localidade\": null, \"data\": null}, \"requires_human\": false}<|im_end|>\n",
+    "labeled_tokens": 51,
+    "masked_prompt_tokens": 191,
+    "prompt_tail_text": "as e o saldo nao mudou<|im_end|>\n<|im_start|>assistant\n",
+    "total_tokens": 242
+  },
+  "max_length": 512,
+  "mode": "dry_run",
+  "model_name": "Qwen/Qwen2.5-0.5B-Instruct",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "status": "ok",
+  "steps": 2,
+  "system_prompt_chars": 567,
+  "tokenizer_vocab_size": 151665,
+  "tokens_per_example": {
+    "max": 277,
+    "mean": 254.6,
+    "min": 242
+  },
+  "train_loss_per_step": [
+    11.959,
+    11.9392
+  ],
+  "trainable_parameters": {
+    "total": 4870848,
+    "trainable": 8192
+  },
+  "truncated_examples": 0,
+  "weights": "tiny Qwen2 construído localmente (sem download dos pesos)"
+}

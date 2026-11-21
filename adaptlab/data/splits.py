@@ -66,11 +66,16 @@ def default_assignment(seed: int, per_intent: Mapping[str, int]) -> dict[str, st
     return assign_scenarios(SCENARIOS, seed, per_intent)
 
 
-def canonical_hash(examples: Sequence[Example]) -> str:
-    """SHA-256 do conjunto, independente da ordem (ordenado por id, JSON canónico)."""
+def hash_records(records: Sequence[dict]) -> str:
+    """SHA-256 de registos (dicts), independente da ordem: ordenado por id, JSON canónico."""
     digest = hashlib.sha256()
-    for example in sorted(examples, key=lambda ex: ex.example_id):
-        line = json.dumps(example.to_dict(), ensure_ascii=False, sort_keys=True)
+    for record in sorted(records, key=lambda rec: rec["id"]):
+        line = json.dumps(record, ensure_ascii=False, sort_keys=True)
         digest.update(line.encode("utf-8"))
         digest.update(b"\n")
     return digest.hexdigest()
+
+
+def canonical_hash(examples: Sequence[Example]) -> str:
+    """SHA-256 de um conjunto de exemplos (mesma canonicalização que ``hash_records``)."""
+    return hash_records([example.to_dict() for example in examples])

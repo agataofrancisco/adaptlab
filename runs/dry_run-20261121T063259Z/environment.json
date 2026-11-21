@@ -1,0 +1,17 @@
+{
+  "cuda_available": false,
+  "device": "cpu",
+  "gpu_name": null,
+  "packages": {
+    "accelerate": "1.16.0",
+    "bitsandbytes": null,
+    "datasets": "5.2.0",
+    "peft": "0.22.0",
+    "torch": "2.15.0+cpu",
+    "transformers": "5.23.0",
+    "trl": "1.18.2"
+  },
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "torch_cuda": null
+}

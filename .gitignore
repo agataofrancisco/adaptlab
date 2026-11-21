@@ -22,9 +22,15 @@ huggingface/
 *.gguf
 *.pt
 *.pth
-runs/**
+# Runs: guardam-se metadados, métricas e previsões (pequenos); pesos e adapters ficam fora.
+runs/*
 !runs/.gitkeep
+!runs/eval-*/
+!runs/train-*/
+!runs/dry_run-*/
 runs/**/adapter*
+runs/**/checkpoint-*/
+runs/**/trainer/
 checkpoints/
 outputs/
 

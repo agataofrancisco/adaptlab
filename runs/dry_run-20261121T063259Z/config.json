@@ -1,0 +1,57 @@
+{
+  "config": {
+    "data": {
+      "dev_file": "dev.jsonl",
+      "dir": "data/processed",
+      "train_file": "train.jsonl"
+    },
+    "dry_run": {
+      "max_steps": 2,
+      "sample_size": 8,
+      "tiny_heads": 2,
+      "tiny_hidden_size": 32,
+      "tiny_intermediate": 64,
+      "tiny_kv_heads": 1,
+      "tiny_layers": 1
+    },
+    "lora": {
+      "alpha": 32,
+      "bias": "none",
+      "dropout": 0.05,
+      "r": 16,
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj",
+        "gate_proj",
+        "up_proj",
+        "down_proj"
+      ]
+    },
+    "model": {
+      "max_length": 512,
+      "name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+    },
+    "quantization": "none",
+    "tracking": {
+      "runs_dir": "runs"
+    },
+    "training": {
+      "completion_only_loss": true,
+      "eval_strategy": "epoch",
+      "gradient_accumulation_steps": 2,
+      "learning_rate": 0.0002,
+      "logging_steps": 10,
+      "lr_scheduler_type": "cosine",
+      "num_train_epochs": 3,
+      "per_device_train_batch_size": 8,
+      "save_strategy": "no",
+      "seed": 42,
+      "warmup_ratio": 0.03
+    }
+  },
+  "mode": "dry_run",
+  "model_revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+}
