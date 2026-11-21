@@ -1,0 +1,34 @@
+# Ambiente e caches
+.venv/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Segredos
+.env
+.env.*
+!.env.example
+
+# Cache do Hugging Face (modelos e datasets descarregados)
+.cache/
+huggingface/
+
+# Pesos e checkpoints: nunca versionar
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+runs/**
+!runs/.gitkeep
+runs/**/adapter*
+checkpoints/
+outputs/
+
+# Dados de runtime (regerados pelos scripts)
+data/runtime/
+data/review/*.local.jsonl
+*.log
