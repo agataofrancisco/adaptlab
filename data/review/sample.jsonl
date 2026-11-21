@@ -1,0 +1,40 @@
+{"decision": null, "id": "avaria_escalada_tecnica/t0/r14", "intent": "avaria_rede", "message": "tou se rede ha dia 12 no Malanje e ja liguei res vezes, quero o responsavl tecnico", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "avaria_sinal_fraco_bairro/t0/r02", "intent": "avaria_rede", "message": "boa tarde mano, a net ta fraca no Talatona dede terça-feira", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "avaria_sinal_fraco_bairro/t0/r08", "intent": "avaria_rede", "message": "boa tarde mano, a net ta fraca no Talatona desde há três dias", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "avaria_sinal_fraco_bairro/t1/r13", "intent": "avaria_rede", "message": "sem sinal nenhum no Kilamba desde terça-feira, ninguém consegue fazer chamadas", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "avaria_sinal_fraco_bairro/t1/r14", "intent": "avaria_rede", "message": "sem sinal nenhum no Lubango desde dia 12, ninguém consegue fazer chamadas", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_pacote/t0/r03", "intent": "cancelamento", "message": "quero cancelar o meu pacote, o número é 989 710 423", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_pacote/t1/r02", "intent": "cancelamento", "message": "please cancel my plan, número +244 930 998 983", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_pacote/t1/r03", "intent": "cancelamento", "message": "pleae cancel my plan, número 900458876", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_retencao_supervisor/t1/r03", "intent": "cancelamento", "message": "cancelem a linha 939005858 aora, ja nao aguento mais esta rede", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_retencao_supervisor/t1/r09", "intent": "cancelamento", "message": "cancelem a inha 941995803 agora, ja nao aguent mais esta rede", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_retencao_supervisor/t1/r11", "intent": "cancelamento", "message": "cancelem a lina 928 378 452 agora, ja nao aguento mis esta red", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "cancelamento_retencao_supervisor/t1/r12", "intent": "cancelamento", "message": "cancelem a linha 970 998 397 agora, já não aguento mais esta rede", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_debito_duplicado/t0/r01", "intent": "faturacao", "message": "fui debitado duas vezes (1 mil kwanzas) no mesmo dia hoje, quero o reembolso", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_debito_duplicado/t0/r13", "intent": "faturacao", "message": "fui debitado duas vezes (5000 Kz) no mesmo dia dia 12, quero o reembolso", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_debito_duplicado/t1/r02", "intent": "faturacao", "message": "cobraram-me 300 Kz duas vezes e ninguém responde", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_debito_duplicado/t1/r04", "intent": "faturacao", "message": "cobraram-me 200 kwanzas duas vezes e ninguém responde", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_debito_duplicado/t1/r11", "intent": "faturacao", "message": "cobrara-me 2500 Kz duas vezes ninguem responde", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t0/r05", "intent": "faturacao", "message": "nao recebi a fatura deste mes no meu numero +244 918 528 033, podem reenvia?", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t0/r08", "intent": "faturacao", "message": "nao recebi a fatura deste mes no meu numero +244 951 820 647, podem reenviar?", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t1/r02", "intent": "faturacao", "message": "quero saber o valor da atura de há três dias, sou de Namibe", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t1/r08", "intent": "faturacao", "message": "quero saber o valor da fatura de esta manhã, sou de Uíge", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t1/r09", "intent": "faturacao", "message": "quero saber o valor da fatura de segunda-feira, sou de Huambo", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t1/r13", "intent": "faturacao", "message": "quero saber o valor da fatura de terça-feira, sou de Cacuaco", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "fatura_reenvio/t1/r15", "intent": "faturacao", "message": "quero saber o valor da fatura de segunda-feira, sou de Cabinda", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "outro_fora_ambito/t1/r00", "intent": "outro", "message": "têm vagas de emprego na vossa loja de Namibe?", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "pacote_compra_falhou/t0/r07", "intent": "pacote_dados", "message": "não consegui comprar o pacote de 1.000 Kz, aparece erro", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "pacote_consumo_acabou/t0/r03", "intent": "pacote_dados", "message": "o meu pacote acabou em anteontem e ainda tenho consumo, porque?", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "portabilidade_prazo/t0/r11", "intent": "portabilidade", "message": "quero mudar o meu número +244 948 785 735 para outra operadora, quanto tempo demora?", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "portabilidade_prazo/t1/r00", "intent": "portabilidade", "message": "how long does portabilidade take? tenho o número +244 948 305 002", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "portabilidade_recusada/t0/r10", "intent": "portabilidade", "message": "a portabilidade do 977121310 foi recusada, nao sei porque", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "portabilidade_recusada/t1/r02", "intent": "portabilidade", "message": "pedi a portabilidade do +244 958 042 924 ontem e já apareceu como recusada", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_como_fazer/t0/r05", "intent": "recarga", "message": "como faco pa ecarregar 5000 Kz pelo telmovel?", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t0/r01", "intent": "recarga", "message": "boa, fiz uma recarga de 2 mil kwanzas e o saldo não mudou", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t0/r04", "intent": "recarga", "message": "boa, fiz ua recarga de 200 kwanzas e o saldo nao mudou", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t0/r07", "intent": "recarga", "message": "boa, fiz uma recarga de 200 Kz e o saldo não mudou", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t0/r09", "intent": "recarga", "message": "boa, fiz uma recarga de 1.000 Kz e o saldo nao mudou", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t1/r02", "intent": "recarga", "message": "comprei 5 mil kwanzas d credito hoje mas nada entrou no 979420512", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t1/r06", "intent": "recarga", "message": "comprei 1.500 Kz de crédito hoje mas nada entrou", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t1/r09", "intent": "recarga", "message": "comprei 1.000 Kz de crédito hoje mas nada entrou", "message_corrigida": null, "nota": null}
+{"decision": null, "id": "recarga_saldo_nao_entrou/t1/r13", "intent": "recarga", "message": "comprei 500 Kz de crédito hoje mas nada entrou no +244 923 719 920", "message_corrigida": null, "nota": null}

@@ -1,0 +1,130 @@
+{
+  "generator": {
+    "exact_duplicates_dropped": 147,
+    "near_duplicates_dropped": 61,
+    "raw_count": 896,
+    "realizations_per_template": 16
+  },
+  "leakage": {
+    "near_duplicate_pairs_across_splits": 0,
+    "shared_templates": 0,
+    "threshold": 0.6
+  },
+  "review": {
+    "corrected": 0,
+    "decisions_recorded": 0,
+    "note": "Revisão humana pendente: a pessoa revisora preenche data/review/decisions.jsonl.",
+    "pending": 40,
+    "rejected": 0,
+    "sample_size": 40,
+    "status": "pendente"
+  },
+  "seed": 20261120,
+  "split_hashes": {
+    "dev": "0aee5eba642f81d985d0909fd484b798eeb6fa509e2f484d2a1bce8730f5e360",
+    "test": "8850e7c0a283d4ed81c576a67def9874e96f3936f86918943d6ec6dc5ebd219d",
+    "train": "dc25f7ee8115c708f0f0bdea8bd3977bc769954bff486db5e22112246b0220c2"
+  },
+  "splits": {
+    "dev": {
+      "entity_null_rate": {
+        "data": 0.7778,
+        "localidade": 1.0,
+        "numero": 0.2889,
+        "valor": 0.6056
+      },
+      "intents": {
+        "avaria_rede": 13,
+        "cancelamento": 29,
+        "faturacao": 23,
+        "outro": 19,
+        "pacote_dados": 32,
+        "portabilidade": 32,
+        "recarga": 32
+      },
+      "message_chars_max": 84,
+      "message_chars_mean": 63.37,
+      "n": 180,
+      "priorities": {
+        "alta": 51,
+        "baixa": 64,
+        "media": 65
+      },
+      "requires_human_true": 51,
+      "tags": {
+        "entidade_ausente": 21,
+        "escalonamento": 51,
+        "incompleto": 5,
+        "mistura_pt_en": 55,
+        "ruido": 80
+      }
+    },
+    "test": {
+      "entity_null_rate": {
+        "data": 0.8832,
+        "localidade": 0.8175,
+        "numero": 0.6496,
+        "valor": 0.4672
+      },
+      "intents": {
+        "avaria_rede": 32,
+        "cancelamento": 17,
+        "faturacao": 8,
+        "outro": 11,
+        "pacote_dados": 24,
+        "portabilidade": 13,
+        "recarga": 32
+      },
+      "message_chars_max": 85,
+      "message_chars_mean": 58.53,
+      "n": 137,
+      "priorities": {
+        "alta": 43,
+        "baixa": 77,
+        "media": 17
+      },
+      "requires_human_true": 11,
+      "tags": {
+        "entidade_ausente": 39,
+        "escalonamento": 11,
+        "incompleto": 13,
+        "mistura_pt_en": 64,
+        "ruido": 81
+      }
+    },
+    "train": {
+      "entity_null_rate": {
+        "data": 0.7466,
+        "localidade": 0.7412,
+        "numero": 0.5391,
+        "valor": 0.7332
+      },
+      "intents": {
+        "avaria_rede": 60,
+        "cancelamento": 59,
+        "faturacao": 60,
+        "outro": 26,
+        "pacote_dados": 46,
+        "portabilidade": 64,
+        "recarga": 56
+      },
+      "message_chars_max": 93,
+      "message_chars_mean": 62.44,
+      "n": 371,
+      "priorities": {
+        "alta": 117,
+        "baixa": 173,
+        "media": 81
+      },
+      "requires_human_true": 85,
+      "tags": {
+        "entidade_ausente": 35,
+        "escalonamento": 85,
+        "incompleto": 28,
+        "mistura_pt_en": 64,
+        "ruido": 196
+      }
+    }
+  },
+  "test_sha256": "8850e7c0a283d4ed81c576a67def9874e96f3936f86918943d6ec6dc5ebd219d"
+}

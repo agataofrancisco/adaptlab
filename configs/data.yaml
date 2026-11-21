@@ -1,0 +1,25 @@
+# Configuração do dataset sintético AdaptLab (Mukua Telecom, fictícia).
+# Os caminhos são relativos à raiz do projecto.
+
+seed: 20261120
+realizations_per_template: 16
+
+# Quase-duplicados: Jaccard de 5-gramas de caracteres >= limiar -> o segundo sai.
+dedupe_threshold: 0.85
+# Fuga entre splits: qualquer par (treino, dev, teste) acima deste limiar falha o pipeline.
+leakage_threshold: 0.6
+
+# Cenários por intent em cada split (4 cenários por intent no catálogo).
+scenarios_per_intent:
+  train: 2
+  dev: 1
+  test: 1
+
+# Cobertura mínima verificada no total.
+min_per_intent: 40
+min_per_tag: 25
+
+# Revisão humana (PT-AO). Amostra do treino; decisões preenchidas pela pessoa revisora.
+review_sample_size: 40
+review_sample_path: data/review/sample.jsonl
+review_decisions: data/review/decisions.jsonl
