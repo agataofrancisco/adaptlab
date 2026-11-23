@@ -10,8 +10,10 @@ Esta é uma **auto-revisão** feita por quem implementou. Não substitui a revis
 - Teste artificial que o detector apanha: `tests/test_data.py::test_artificial_leak_is_detected`.
 - Hash do teste no manifesto; `evaluate.py --split test` recusa-se sem `--final` e falha se o hash mudar
   (`tests/test_evaluation.py::test_tampered_test_set_is_refused`).
-- **Risco residual**: `--final` não tem registo de uso. Nada impede correr o teste mais de uma vez.
-  Mitigação pedida ao supervisor: registar cada execução final.
+- **Mitigado**: cada `--final` regista uma linha em `runs/final_eval_log.jsonl` antes de gerar predições;
+  uma nova leitura exige `--allow-retest` com motivo, também registado; o relatório mostra o número de leituras
+  (D21, `tests/test_final_log.py`). **Residual**: o registo é um ficheiro do repositório e não impede adulteração
+  deliberada; só a torna visível no histórico git.
 - **Risco residual**: as escolhas de design (limiar, margem) não foram feitas olhando para o teste, mas
   o teste nunca foi lido antes de `evaluate.py --final` (ainda não correu para modelos).
 

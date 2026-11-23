@@ -149,3 +149,8 @@ largo. Declarado no card.
 
 **38. O que falta para uma resposta honesta sobre o LoRA?**
 Correr o notebook em GPU, medir o zero-shot e o few-shot, e a revisão PT-AO. Tudo registado como pendente.
+
+**39. Como provas que o teste não foi espreitado várias vezes?**
+Não consigo provar a negativa, mas deixo rasto: cada leitura final fica numa linha append-only com data,
+commit, configuração e hash do teste, e cada nova leitura exige um motivo registado. O relatório mostra o
+número de leituras. O rasto não impede uma leitura; torna-a visível e justificada.

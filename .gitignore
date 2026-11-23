@@ -25,6 +25,8 @@ huggingface/
 # Runs: guardam-se metadados, métricas e previsões (pequenos); pesos e adapters ficam fora.
 runs/*
 !runs/.gitkeep
+# Registo auditável das leituras finais do teste (append-only; ver docs/decisions.md D21).
+!runs/final_eval_log.jsonl
 !runs/eval-*/
 !runs/train-*/
 !runs/dry_run-*/

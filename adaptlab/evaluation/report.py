@@ -72,6 +72,7 @@ def render_report(
     margin: float,
     dataset_hash: str | None,
     train_runs: list[dict[str, Any]] | None = None,
+    final_log_entries: list[dict[str, Any]] | None = None,
 ) -> str:
     decision: StopDecision = decide(dev_scores(runs), margin)
     lines: list[str] = [
@@ -83,6 +84,8 @@ def render_report(
         "## Dataset",
         "",
         f"- Hash SHA-256 do teste (manifesto): `{dataset_hash or TODO}`",
+        "",
+        *_test_use_section(final_log_entries or []),
         "",
         "## Critério de paragem",
         "",
@@ -190,4 +193,23 @@ def _training_section(train_runs: list[dict[str, Any]]) -> list[str]:
     lines.extend(f"| {step} | {loss} |" for step, loss in losses)
     lines.append("")
     lines.append("- Gráfico PNG: TODO (matplotlib não instalado); curvas em tabela.")
+    return lines
+
+
+def _test_use_section(entries: list[dict[str, Any]]) -> list[str]:
+    """Quantas vezes o teste foi lido, segundo o registo ``runs/final_eval_log.jsonl``."""
+    lines = ["## Uso do conjunto de teste", ""]
+    lines.append(f"- Leituras finais registadas: **{len(entries)}**")
+    if not entries:
+        lines.append("- Ainda não houve leitura final do teste.")
+        return lines
+    lines.append("")
+    lines.append("| # | UTC | Abordagem | Modelo | Commit | Motivo de nova leitura |")
+    lines.append("|---|---|---|---|---|---|")
+    for e in entries:
+        reason = e.get("retest_reason") or "—"
+        lines.append(
+            f"| {e.get('use_index')} | {e.get('timestamp_utc')} | {e.get('approach')} | "
+            f"`{e.get('model_id')}` | `{str(e.get('git_commit'))[:10]}` | {reason} |"
+        )
     return lines

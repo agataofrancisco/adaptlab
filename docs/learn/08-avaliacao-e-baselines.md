@@ -113,3 +113,16 @@ final recusa-se a correr.
 **7. O que acontece se o LoRA não ganhar?**
 O critério bloqueia a exportação para publicação. O relatório fica com o resultado negativo
 e com as hipóteses (rank, learning rate, mais dados). Um resultado negativo é válido.
+
+## Teste intocado: registo auditável
+
+- Cada `--final` acrescenta uma linha a `runs/final_eval_log.jsonl` **antes** de gerar predições: data UTC,
+  número de uso, commit git, hash SHA-256 da configuração, modelo/adapter, hash do teste, número de
+  exemplos e motivo (se for uma nova leitura).
+- Ordem das verificações: (1) recusa se for uma nova leitura sem `--allow-retest` (sem tocar no teste);
+  (2) lê o ficheiro e verifica o hash contra o manifesto; (3) se o hash mudou, recusa (código 4) sem registar;
+  (4) regista; (5) gera predições.
+- O relatório (`reports/evaluation.md`, secção "Uso do conjunto de teste") mostra o número de leituras e o
+  motivo de cada nova leitura.
+- Testes: `tests/test_final_log.py` (primeira leitura registada, segunda recusada, motivo registado,
+  motivo vazio recusado, teste alterado recusado sem registo, contagem no relatório).

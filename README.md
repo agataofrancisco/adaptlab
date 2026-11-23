@@ -36,8 +36,31 @@ API e UI (modo demo, sem modelo):
 
 ```
 set ADAPTLAB_MODE=demo
-.venv\Scripts\python -m uvicorn api.main:app --port 8000
+.venv\Scripts\python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 .venv\Scripts\streamlit run ui\app.py
+```
+
+## Autenticação
+
+A API é uma **demonstração só para localhost**. **Não tem autenticação, autorização, limite de pedidos
+nem CORS configurado.** `/predict`, `/health`, `/metrics` e `/model-card` são públicos para quem
+conseguir ligar-se ao serviço. Por isso:
+
+- Por omissão escuta em `127.0.0.1` (`python -m api.main` e os comandos acima usam `--host 127.0.0.1`).
+- Não expor a porta à rede. No Docker, publicar só em localhost: `docker run -p 127.0.0.1:8000:8000 adaptlab-api`.
+- Antes de qualquer exposição fora de localhost: autenticação, limites de pedidos e revisão de segurança
+  (ver `docs/security-self-review.md`, secção 5).
+
+## Avaliação final do teste (auditável)
+
+O conjunto de teste só se lê com `--final`. Cada leitura fica registada em `runs/final_eval_log.jsonl`
+(data, commit git, hash da configuração, modelo/adapter, hash do teste). Uma nova leitura depois da
+primeira exige `--allow-retest "<motivo>"`, que também fica registado. O relatório mostra quantas vezes
+o teste foi lido (ver `docs/decisions.md`, D21).
+
+```
+.venv\Scripts\python scripts\evaluate.py --approach rules --split test --final
+.venv\Scripts\python scripts\evaluate.py --approach rules --split test --final --allow-retest "motivo"
 ```
 
 Modo real: `ADAPTLAB_MODE=real` e `ADAPTLAB_ADAPTER_DIR=<pasta do adapter>`. Sem GPU não é

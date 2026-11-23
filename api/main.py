@@ -118,3 +118,10 @@ def build_default_predictor() -> Predictor:
 
 
 app = create_app(build_default_predictor())
+
+
+if __name__ == "__main__":
+    # Só localhost por omissão: a API de demonstração não tem autenticação (ver README, "Autenticação").
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=8000)

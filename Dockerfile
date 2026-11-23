@@ -1,5 +1,6 @@
 # API AdaptLab em modo demo (sem GPU, sem torch). Não validado neste PC: não há Docker local.
-# Construir: docker build -t adaptlab-api .    Correr: docker run -p 8000:8000 adaptlab-api
+# Construir: docker build -t adaptlab-api .    Correr: docker run -p 127.0.0.1:8000:8000 adaptlab-api
+# Sem autenticação: publicar só em localhost (ver README, secção "Autenticação").
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

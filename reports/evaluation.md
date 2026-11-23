@@ -7,6 +7,11 @@ Só contém valores medidos; o resto está `TODO: medir`.
 
 - Hash SHA-256 do teste (manifesto): `8850e7c0a283d4ed81c576a67def9874e96f3936f86918943d6ec6dc5ebd219d`
 
+## Uso do conjunto de teste
+
+- Leituras finais registadas: **0**
+- Ainda não houve leitura final do teste.
+
 ## Critério de paragem
 
 - Estado: **PENDENTE**

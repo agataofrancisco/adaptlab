@@ -59,3 +59,14 @@ Confirmar antes de publicar.
 é necessária para os critérios.
 
 **D20. Tracking em JSON, não MLflow.** Opcional na spec (D8 do design); menos dependências.
+
+**D21. Registo auditável das leituras finais do teste.** `runs/final_eval_log.jsonl` (append-only, versionado).
+Cada `--final` regista antes de gerar predições. Uma nova leitura exige `--allow-retest "<motivo>"`, mesmo com o
+mesmo modelo e configuração (regra mais estrita do que "modelo ou configuração diferente", por ser mais simples
+de verificar). O hash do teste é verificado antes de qualquer predição, e a recusa por hash alterado não regista
+leitura. Códigos de saída: 4 (hash), 5 (nova leitura sem motivo válido). Limitação: o registo é um ficheiro do
+próprio repositório; não impede adulteração deliberada (só a torna visível no histórico git).
+
+**D22. API só para localhost, sem autenticação.** O `python -m api.main` escuta em 127.0.0.1. O README e a
+documentação dizem explicitamente que não há autenticação, limites de pedidos nem CORS. A publicação do Docker
+deve ser `127.0.0.1:8000:8000`. Exposição pública exige autenticação e revisão, que não estão feitas.

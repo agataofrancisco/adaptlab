@@ -113,3 +113,18 @@ nos dois lados.
 É o sinal de encaminhamento. Escalar depende também de palavras como "queixa" ou "dados
 pessoais", que nem sempre mudam a prioridade. A API marca `requires_human` como verdadeiro
 quando o label diz isso ou quando a prioridade é alta.
+
+## Autenticação e exposição
+
+A API não tem autenticação. É uma demonstração para localhost:
+
+- `python -m api.main` escuta em `127.0.0.1` por omissão, e o uvicorn também por omissão.
+- Não há tokens, chaves nem utilizadores. Qualquer processo local consegue chamar `/predict` e `/metrics`.
+- O Dockerfile corre dentro do contentor em `0.0.0.0` (necessário lá dentro), mas a publicação deve ser
+  `127.0.0.1:8000:8000`.
+- Antes de expor a API: autenticação (por exemplo, token por cliente), limites de pedidos por cliente,
+  CORS explícito e revisão de segurança. Nada disto está implementado.
+
+Pergunta de entrevista: *Porque é que uma API de demonstração sem autenticação pode existir?*
+Porque o risco fica confinado a localhost e o modo demo não chama modelos. A mesma API em rede pública
+exigiria autenticação, limites e monitorização antes de existir.
