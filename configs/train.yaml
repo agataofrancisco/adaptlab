@@ -6,6 +6,8 @@ model:
   name: Qwen/Qwen2.5-0.5B-Instruct
   # Commit exacto do modelo base (campo "sha" da API do Hugging Face, medido em 2026-11-20).
   revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  # Licença verificada na API do Hugging Face (tag license:apache-2.0), em 2026-11-21.
+  license: apache-2.0
   max_length: 512
 
 data:

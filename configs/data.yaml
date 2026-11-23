@@ -23,3 +23,6 @@ min_per_tag: 25
 review_sample_size: 40
 review_sample_path: data/review/sample.jsonl
 review_decisions: data/review/decisions.jsonl
+
+# Licença do dataset (proposta do autor; confirmar antes de publicar).
+dataset_license: CC-BY-4.0

@@ -38,7 +38,7 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["adaptlab", "adaptlab.data", "adaptlab.training", "adaptlab.evaluation", "adaptlab.serving"]
+packages = ["adaptlab", "adaptlab.data", "adaptlab.training", "adaptlab.evaluation", "adaptlab.serving", "adaptlab.publication"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

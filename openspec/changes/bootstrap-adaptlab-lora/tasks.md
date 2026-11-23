@@ -31,16 +31,16 @@
 
 ## 5. Serviço e publicação
 
-- [ ] 5.1 Implementar a API (`/predict`, `/model-card`, `/health`, `/metrics`) com o modo real (PEFT) e o demo `precomputed_demo`; verificar com testes de saída inválida, mensagem nova em demo e health em CPU
-- [ ] 5.2 Implementar a UI lado a lado base vs adaptado; verificar no browser
-- [ ] 5.3 Implementar `export_adapter.py` e `inference.py`, o model card e a publicação condicionada (licenças, critério de paragem, confirmação manual); verificar com teste de licença proibida → recusa
-- [ ] 5.4 Escrever `docs/learn/09-servir-adapters.md`; verificar com a API a correr
+- [x] 5.1 Implementar a API (`/predict`, `/model-card`, `/health`, `/metrics`) com o modo real (PEFT) e o demo `precomputed_demo`; verificar com testes de saída inválida, mensagem nova em demo e health em CPU
+- [x] 5.2 Implementar a UI lado a lado base vs adaptado; verificar no browser
+- [x] 5.3 Implementar `export_adapter.py` e `inference.py`, o model card e a publicação condicionada (licenças, critério de paragem, confirmação manual); verificar com teste de licença proibida → recusa
+- [x] 5.4 Escrever `docs/learn/09-servir-adapters.md`; verificar com a API a correr
 
 ## 6. Entrega
 
 - [ ] 6.1 Dockerfile da API (modo demo), CI (Ruff, pytest, dry-run, validação de dados e fugas; avaliação completa só manual); verificar a validade
-- [ ] 6.2 `README.md`, `docs/architecture.md`, `docs/decisions.md` e `docs/case-study.md`; verificar os comandos
-- [ ] 6.3 `docs/learn/10-perguntas-de-entrevista.md` (≥25); verificar a consistência
+- [x] 6.2 `README.md`, `docs/architecture.md`, `docs/decisions.md` e `docs/case-study.md`; verificar os comandos
+- [x] 6.3 `docs/learn/10-perguntas-de-entrevista.md` (≥25); verificar a consistência
 - [ ] 6.4 Revisão independente (fugas de dados, licenças, honestidade das métricas, modo demo); verificar que os achados estão resolvidos ou documentados
 
 ## Workflow follow-up

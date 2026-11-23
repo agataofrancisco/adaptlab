@@ -20,6 +20,7 @@ from adaptlab.training.format import SYSTEM_PROMPT, build_prompt, to_prompt_comp
 from adaptlab.training.tracking import EnvironmentRequirementError, require_quantization_support
 
 PROCESSED = Path(__file__).resolve().parents[1] / "data" / "processed"
+DRY_RUN_TIMEOUT_S = 900
 
 
 def _record() -> dict:
@@ -106,14 +107,42 @@ def test_spread_sample_is_deterministic_and_covers_range() -> None:
 
 @pytest.mark.skipif(not (PROCESSED / "train.jsonl").exists(), reason="dataset não gerado")
 def test_dry_run_masks_prompt_and_trains_two_steps(tmp_path: Path) -> None:
-    """Dry-run real: tokenizer do modelo configurado, modelo tiny local, 1 passo LoRA."""
-    from adaptlab.training.dryrun import run_dry_run
+    """Dry-run real: tokenizer do modelo configurado, modelo tiny local, 1 passo LoRA.
 
-    raw = yaml.safe_load(DEFAULT_TRAIN_CONFIG.read_text(encoding="utf-8"))
-    raw["dry_run"]["sample_size"] = 4
-    raw["dry_run"]["max_steps"] = 1
-    config = parse_train_config(raw)
-    report = run_dry_run(config, tmp_path)
+    Corre num processo filho com timeout duro (``DRY_RUN_TIMEOUT_S``) e stdin fechado: o dry-run importa
+    torch/transformers/trl e, dentro da mesma sessão de pytest (depois de testes com
+    TestClient), podia bloquear sem falhar. O processo filho isola esse estado.
+    """
+    import json
+    import subprocess
+    import sys
+
+    script = (
+        "import json, sys, yaml; from pathlib import Path; "
+        "from adaptlab.training.config import parse_train_config, DEFAULT_TRAIN_CONFIG; "
+        "from adaptlab.training.dryrun import run_dry_run; "
+        "raw = yaml.safe_load(DEFAULT_TRAIN_CONFIG.read_text(encoding='utf-8')); "
+        "raw['dry_run']['sample_size'] = 4; raw['dry_run']['max_steps'] = 1; "
+        "report = run_dry_run(parse_train_config(raw), Path(sys.argv[1])); "
+        "print('REPORT=' + json.dumps(report, ensure_ascii=False, default=str))"
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", script, str(tmp_path)],
+        cwd=PROCESSED.parents[1],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        # stdin=DEVNULL: sem isto o filho herda o stdin do pytest e o dry-run bloqueou
+        # (observado: 900 s sem progresso; com DEVNULL conclui em ~190 s). Causa exacta do bloqueio
+        # por leitura de stdin não foi identificada.
+        stdin=subprocess.DEVNULL,
+        timeout=DRY_RUN_TIMEOUT_S,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr[-2000:]
+    line = next(x for x in completed.stdout.splitlines() if x.startswith("REPORT="))
+    report = json.loads(line[len("REPORT=") :])
     assert report["status"] == "ok"
     assert report["masking"]["masked_prompt_tokens"] > 0
     assert report["masking"]["contiguous_labels"] is True

@@ -38,3 +38,6 @@ outputs/
 data/runtime/
 data/review/*.local.jsonl
 *.log
+
+# Exportações locais de adapters (gerado; pesos ignorados pelo git).
+exports/
