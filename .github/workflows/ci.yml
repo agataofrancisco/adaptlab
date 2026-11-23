@@ -1,0 +1,31 @@
+name: ci
+
+# Validação automática: lint, testes, dry-run de treino e dados/fugas.
+# A avaliação completa (GPU) NÃO corre aqui: é manual, no notebook.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar torch CPU
+        run: pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Instalar dependências fixadas
+        run: pip install -e ".[train,eval,serve,dev]"
+      - name: Ruff (lint)
+        run: ruff check adaptlab scripts tests api
+      - name: Ruff (formato)
+        run: ruff format --check adaptlab scripts tests api
+      - name: Dados e fugas (gerar e validar, sem escrever)
+        run: python scripts/prepare_data.py --check
+      - name: Testes (inclui fuga artificial, dry-run e API demo)
+        run: pytest tests
+      - name: Dry-run de treino (CPU)
+        run: python scripts/train.py --dry-run
