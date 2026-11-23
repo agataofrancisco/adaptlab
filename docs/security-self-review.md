@@ -73,3 +73,11 @@ Esta é uma **auto-revisão** feita por quem implementou. Não substitui a revis
 3. Executar o notebook em GPU e medir o zero-shot, o few-shot e o LoRA (3.3, 3.4, 4.3, 4.4).
 4. Revisão humana PT-AO (2.4).
 5. Decidir a licença do dataset (CC-BY-4.0 é proposta).
+
+## Revisão independente do supervisor (2026-11-23)
+
+- **Pesos e dados:** nenhum ficheiro de pesos (`*.safetensors`, `*.bin`, `*.pt`, `*.gguf`, `adapter_model*`) está no Git (verificado com `git ls-files`).
+- **Integridade da avaliação:** cada `--final` fica registado em `runs/final_eval_log.jsonl` antes de qualquer predição, e o hash do conjunto de teste é verificado. Um re-teste exige uma justificação, que também fica registada. A manipulação do log só é detectável pelo histórico do Git (risco residual aceite).
+- **API:** liga-se só a `127.0.0.1` (`api/main.py:127`) e não tem autenticação, o que está documentado. O modo demo marca as respostas `precomputed_demo` e as fixtures são rotuladas como não sendo o modelo.
+- **Publicação:** `scripts/export_adapter.py` exige o critério de paragem e as licenças do modelo base e do dataset, e está bloqueada enquanto não houver resultados de LoRA.
+- **Pendente:** treino e avaliação em GPU (3.4/4.3/4.4), revisão humana PT-AO (2.4), zero-shot medido (3.3) e Docker (6.1).

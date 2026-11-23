@@ -41,7 +41,7 @@
 - [ ] 6.1 Dockerfile da API (modo demo), CI (Ruff, pytest, dry-run, validação de dados e fugas; avaliação completa só manual); verificar a validade
 - [x] 6.2 `README.md`, `docs/architecture.md`, `docs/decisions.md` e `docs/case-study.md`; verificar os comandos
 - [x] 6.3 `docs/learn/10-perguntas-de-entrevista.md` (≥25); verificar a consistência
-- [ ] 6.4 Revisão independente (fugas de dados, licenças, honestidade das métricas, modo demo); verificar que os achados estão resolvidos ou documentados
+- [x] 6.4 Revisão independente (fugas de dados, licenças, honestidade das métricas, modo demo); verificar que os achados estão resolvidos ou documentados
 
 ## Workflow follow-up
 
