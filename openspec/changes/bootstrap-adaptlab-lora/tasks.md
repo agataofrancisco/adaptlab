@@ -27,7 +27,7 @@
 - [x] 4.1 Implementar `evaluate.py` com o parsing comum, as baselines zero/few-shot/regras e as métricas (macro-F1, F1 entidades, JSON válido, recall alto risco, latência, custo, confusão); verificar as métricas com testes de exemplos à mão
 - [x] 4.2 Implementar o relatório (curvas, confusão, adapter, VRAM, tempo, seeds, `TODO: medir`) e o critério de paragem; verificar com teste em que o LoRA não melhora → bloqueio
 - [ ] 4.3 Correr o treino e a avaliação no notebook (≥1 seed, 3 se possível) e gravar os resultados; verificar que cada número tem uma run de origem
-- [ ] 4.4 Escrever `docs/learn/08-avaliacao-e-baselines.md` com os resultados obtidos; verificar a consistência
+- [x] 4.4 Escrever `docs/learn/08-avaliacao-e-baselines.md` com os resultados obtidos; verificar a consistência
 
 ## 5. Serviço e publicação
 

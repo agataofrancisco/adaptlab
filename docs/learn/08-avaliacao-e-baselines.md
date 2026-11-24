@@ -29,7 +29,7 @@ Para as abordagens com modelo, o relatório mostra `TODO: medir`:
 | Abordagem | Estado |
 |---|---|
 | Regras | medido (dev) |
-| Base zero-shot | TODO: medir (precisa de descarregar o modelo e correr geração) |
+| Base zero-shot | medida exploratória: dev estratificado, n=20; não é comparável à baseline completa de regras |
 | Base few-shot (k=5) | TODO: medir |
 | LoRA (QLoRA NF4) | TODO: medir (treino GPU ainda não feito; tarefa 4.3 pendente) |
 
@@ -126,3 +126,31 @@ e com as hipóteses (rank, learning rate, mais dados). Um resultado negativo é 
   motivo de cada nova leitura.
 - Testes: `tests/test_final_log.py` (primeira leitura registada, segunda recusada, motivo registado,
   motivo vazio recusado, teste alterado recusado sem registo, contagem no relatório).
+
+## Medição zero-shot exploratória — 2026-11-24
+
+A run `eval-zero_shot-dev-20261124T064440766696Z-b244de` avaliou o
+`Qwen/Qwen2.5-0.5B-Instruct`, revisão
+`7ae557604adf67be50417f59c2c2f167def9a775`, em CPU com `bfloat16`. Usou uma amostra
+estratificada por intenção de 20 exemplos do split `dev`, seed 42. Os dados completos e
+as predições estão em `runs/eval-zero_shot-dev-20261124T064440766696Z-b244de/`.
+
+| Métrica | Resultado | IC bootstrap 95% |
+|---|---:|---:|
+| Macro-F1 de intenção | 0,1524 | 0,0625–0,2568 |
+| F1 de entidades | 0,4615 | — |
+| Precisão de entidades | 0,5217 | — |
+| Recall de entidades | 0,4138 | — |
+| JSON válido | 90% | — |
+| Recall de alto risco (6 positivos) | 0,1667 | 0–0,5 |
+| Latência média em CPU | 12,8771 s | — |
+
+Estes intervalos bootstrap não compensam a amostra pequena. Seis exemplos de alto risco
+não permitem concluir que o recall real seja adequado. A medição serve para detectar
+problemas e preparar uma comparação maior; não declara o modelo pronto nem permite
+compará-lo directamente com a baseline de regras, que usou o dev completo.
+
+A tentativa equivalente do Qwen 1.5B não concluiu o download e não gerou métricas.
+Ainda é necessário comparar os dois candidatos com a mesma amostra, prompt e parser,
+treinar e avaliar o adapter no mesmo dev e, depois de congelar a decisão, avaliar uma vez
+no test.
