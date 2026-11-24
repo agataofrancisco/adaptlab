@@ -1,0 +1,170 @@
+{
+  "mode": "evaluate",
+  "approach": "zero_shot",
+  "split": "dev",
+  "final": false,
+  "limit": 0,
+  "sample": {
+    "n": 20,
+    "seed": 42,
+    "method": "stratified_by_intent",
+    "ids": [
+      "avaria_sem_detalhes/t0/r09",
+      "cancelamento_data_futura/t0/r07",
+      "cancelamento_data_futura/t0/r14",
+      "cancelamento_data_futura/t1/r01",
+      "fatura_valor_a_mais/t0/r07",
+      "fatura_valor_a_mais/t1/r07",
+      "fatura_valor_a_mais/t1/r14",
+      "outro_dados_pessoais/t0/r05",
+      "outro_dados_pessoais/t0/r13",
+      "pacote_ativar_ingles/t0/r04",
+      "pacote_ativar_ingles/t0/r07",
+      "pacote_ativar_ingles/t0/r13",
+      "pacote_ativar_ingles/t1/r13",
+      "portabilidade_urgente_escalada/t0/r06",
+      "portabilidade_urgente_escalada/t0/r07",
+      "portabilidade_urgente_escalada/t1/r09",
+      "portabilidade_urgente_escalada/t1/r15",
+      "recarga_erro_sistema/t0/r00",
+      "recarga_erro_sistema/t0/r01",
+      "recarga_erro_sistema/t0/r15"
+    ]
+  },
+  "cpu": {
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "logical_cores": 8
+  },
+  "dtype": "bfloat16",
+  "seeds": 1,
+  "examples": 20,
+  "lora_run": null,
+  "model": {
+    "name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "bootstrap_ci": {
+    "macro_f1_intent": [
+      0.0625,
+      0.2568
+    ],
+    "high_risk_recall": [
+      0.0,
+      0.5
+    ]
+  },
+  "metrics": {
+    "n": 20,
+    "macro_f1_intent": 0.1524,
+    "entity_f1": 0.4615,
+    "entity_precision": 0.5217,
+    "entity_recall": 0.4138,
+    "json_valid_rate": 0.9,
+    "high_risk_recall": 0.1667,
+    "high_risk_positives": 6,
+    "latency_mean_s": 12.8771,
+    "latency_p50_s": 11.7347,
+    "output_tokens_mean": 51.85,
+    "confusion_labels": [
+      "recarga",
+      "avaria_rede",
+      "faturacao",
+      "portabilidade",
+      "cancelamento",
+      "pacote_dados",
+      "outro",
+      "__invalid__"
+    ],
+    "confusion": [
+      [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "errors_by_gold_intent": {
+      "avaria_rede": 1,
+      "faturacao": 3,
+      "outro": 2,
+      "pacote_dados": 4,
+      "portabilidade": 4
+    }
+  },
+  "started_utc": "2026-11-24T06:44:40.766696+00:00",
+  "device": "cpu"
+}
