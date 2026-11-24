@@ -40,7 +40,14 @@ def load_eval_runs(runs_dir: Path) -> list[dict[str, Any]]:
 
 
 def latest_by(runs: list[dict[str, Any]], approach: str, split: str) -> dict[str, Any] | None:
-    matches = [r for r in runs if r.get("approach") == approach and r.get("split") == split]
+    matches = [
+        r
+        for r in runs
+        if r.get("approach") == approach
+        and r.get("split") == split
+        and not r.get("sample")
+        and not r.get("limit")
+    ]
     return matches[-1] if matches else None
 
 

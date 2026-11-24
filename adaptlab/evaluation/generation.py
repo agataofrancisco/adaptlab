@@ -18,13 +18,21 @@ class ChatGenerator:
         revision: str,
         max_new_tokens: int = 96,
         adapter_dir: Path | None = None,
+        cpu_dtype: str = "float32",
     ) -> None:
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self._torch = torch
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        dtype = torch.float16 if self.device == "cuda" else torch.float32
+        if self.device == "cuda":
+            dtype = torch.float16
+        elif cpu_dtype == "bfloat16":
+            dtype = torch.bfloat16
+        elif cpu_dtype == "float32":
+            dtype = torch.float32
+        else:
+            raise ValueError(f"cpu_dtype inválido: {cpu_dtype!r}")
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, revision=revision)
         model: Any = AutoModelForCausalLM.from_pretrained(model_name, revision=revision, dtype=dtype)
         if adapter_dir is not None:

@@ -14,6 +14,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import platform
 import sys
 import uuid
 from datetime import UTC, datetime
@@ -40,7 +42,7 @@ from adaptlab.evaluation.report import load_eval_runs, load_train_runs, render_r
 from adaptlab.evaluation.stopping import TamperedTestSetError, verify_test_hash  # noqa: E402
 from adaptlab.paths import PROCESSED_DIR  # noqa: E402
 from adaptlab.training.config import load_train_config  # noqa: E402
-from adaptlab.training.dataset import read_jsonl, spread_sample  # noqa: E402
+from adaptlab.training.dataset import read_jsonl, spread_sample, stratified_sample  # noqa: E402
 
 EVAL_CONFIG = PROJECT_ROOT / "configs" / "evaluate.yaml"
 RUNS_DIR = PROJECT_ROOT / "runs"
@@ -56,12 +58,17 @@ def load_eval_config(path: Path = EVAL_CONFIG) -> dict[str, Any]:
     return data
 
 
+def _model_name_rev(args: argparse.Namespace, train_cfg: Any) -> tuple[str, str]:
+    return (args.model or train_cfg.model_name, args.revision or train_cfg.model_revision)
+
+
 def _model_id(args: argparse.Namespace, train_cfg: Any) -> str:
     if args.approach == "rules":
         return "rules"
     if args.approach == "lora":
         return f"lora:{Path(args.run_dir).name}"
-    return f"{train_cfg.model_name}@{train_cfg.model_revision}"
+    name, rev = _model_name_rev(args, train_cfg)
+    return f"{name}@{rev}"
 
 
 def evaluate(args: argparse.Namespace) -> int:
@@ -69,6 +76,9 @@ def evaluate(args: argparse.Namespace) -> int:
     train_cfg = load_train_config()
     if args.split == "test" and not args.final:
         print("ERRO: o teste só é lido com --final (uma vez, depois da escolha no dev).", file=sys.stderr)
+        return 2
+    if args.sample and args.split != "dev":
+        print("ERRO: --sample só é permitido com --split dev (o teste nunca é amostrado).", file=sys.stderr)
         return 2
     if args.approach == "lora" and not args.run_dir:
         print("ERRO: --approach lora exige --run-dir (pasta de uma run de treino).", file=sys.stderr)
@@ -117,7 +127,9 @@ def evaluate(args: argparse.Namespace) -> int:
         )
     else:
         records = read_jsonl(PROCESSED_DIR / f"{args.split}.jsonl")
-        if args.limit:
+        if args.sample:
+            records = stratified_sample(records, args.sample, args.seed)
+        elif args.limit:
             records = spread_sample(records, args.limit)
 
     started = datetime.now(UTC)
@@ -127,9 +139,11 @@ def evaluate(args: argparse.Namespace) -> int:
     else:
         from adaptlab.evaluation.generation import ChatGenerator
 
+        gen_name, gen_rev = _model_name_rev(args, train_cfg)
         generator = ChatGenerator(
-            train_cfg.model_name,
-            train_cfg.model_revision,
+            gen_name,
+            gen_rev,
+            cpu_dtype=args.dtype,
             max_new_tokens=int(ev["max_new_tokens"]),
             adapter_dir=adapter,
         )
@@ -159,10 +173,17 @@ def evaluate(args: argparse.Namespace) -> int:
         "split": args.split,
         "final": bool(args.final),
         "limit": args.limit,
+        "sample": (
+            {"n": len(records), "seed": args.seed, "method": "stratified_by_intent", "ids": [r["id"] for r in records]}
+            if args.sample
+            else None
+        ),
+        "cpu": {"processor": platform.processor(), "logical_cores": os.cpu_count()},
+        "dtype": args.dtype if args.approach != "rules" else None,
         "seeds": 1,
         "examples": len(records),
         "lora_run": Path(args.run_dir).name if args.run_dir else None,
-        "model": {"name": train_cfg.model_name, "revision": train_cfg.model_revision},
+        "model": dict(zip(("name", "revision"), _model_name_rev(args, train_cfg), strict=True)),
         "bootstrap_ci": ci,
         "metrics": metrics,
         "started_utc": started.isoformat(),
@@ -214,6 +235,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--run-dir", help="pasta de uma run de treino (para --approach lora)")
     parser.add_argument("--limit", type=int, default=0, help="avalia só uma amostra espalhada (CPU)")
+    parser.add_argument("--sample", type=int, default=0, help="amostra estratificada por intent (só dev)")
+    parser.add_argument("--seed", type=int, default=42, help="seed da amostra estratificada (registada)")
+    parser.add_argument("--model", help="substitui o modelo do config (candidatos da seleção 3.3)")
+    parser.add_argument("--revision", help="commit do modelo indicado em --model")
+    parser.add_argument("--dtype", choices=("float32", "bfloat16"), default="float32", help="dtype em CPU")
     parser.add_argument("--report", action="store_true", help="gera reports/evaluation.md")
     args = parser.parse_args(argv)
     if args.report:

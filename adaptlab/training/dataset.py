@@ -40,3 +40,34 @@ def spread_sample(records: Sequence[dict[str, Any]], size: int) -> list[dict[str
 
 def to_prompt_completion_rows(records: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
     return [to_prompt_completion(record) for record in records]
+
+
+def stratified_sample(records: Sequence[dict[str, Any]], size: int, seed: int) -> list[dict[str, Any]]:
+    """Amostra estratificada por ``intent`` (método dos maiores restos) com seed registada.
+
+    Cada intent recebe uma quota proporcional ao seu tamanho; a escolha dentro do intent é
+    determinística (ordenação por id + baralhamento com ``Random(seed)``). Devolve a lista
+    ordenada por id.
+    """
+    from random import Random
+
+    if size <= 0:
+        raise ValueError("size tem de ser > 0")
+    if size >= len(records):
+        return sorted(records, key=lambda r: r["id"])
+    by_intent: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        by_intent.setdefault(str(record["intent"]), []).append(record)
+    total = len(records)
+    quotas = {k: size * len(v) / total for k, v in by_intent.items()}
+    take = {k: int(q) for k, q in quotas.items()}
+    remaining = size - sum(take.values())
+    by_remainder = sorted(quotas, key=lambda k: (-(quotas[k] - take[k]), k))
+    for intent in by_remainder[:remaining]:
+        take[intent] += 1
+    chosen: list[dict[str, Any]] = []
+    for intent in sorted(by_intent):
+        pool = sorted(by_intent[intent], key=lambda r: r["id"])
+        Random(f"stratified:{seed}:{intent}").shuffle(pool)
+        chosen.extend(pool[: take[intent]])
+    return sorted(chosen, key=lambda r: r["id"])
