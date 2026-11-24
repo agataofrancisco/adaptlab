@@ -23,8 +23,10 @@ regras e um modelo maior com prompt, com custo e latência aceitáveis?
 
 - **Treino QLoRA real e avaliação do LoRA**: precisam de GPU CUDA. O notebook está escrito e validado
   sintacticamente, mas não foi executado. Sem estes números, não há resposta à pergunta principal.
-- **Zero-shot e few-shot do modelo base**: precisam de descarregar ~1 GB de pesos e de geração.
-  Implementados e testados com geradores falsos; sem medição real.
+- **Zero-shot completo e few-shot**: há uma medição exploratória do Qwen 0.5B em 20 exemplos
+  estratificados do dev (macro-F1 0,1524; IC bootstrap 95% 0,0625–0,2568). Não é comparável à
+  baseline de regras, que usa o dev completo. Qwen 1.5B não concluiu o download; few-shot continua
+  sem medição real. Os detalhes e a run estão em `reports/model_selection.md`.
 - **Revisão humana PT-AO**: uma pessoa tem de a fazer. O tooling está pronto.
 - **Build do Docker e execução da CI**: não há Docker local nem runner do GitHub.
 - **Revisão independente** (tarefa 6.4): não pode ser feita por quem implementou.

@@ -19,7 +19,7 @@
 - [x] 3.1 Implementar o formato conversacional, o chat template e a loss completion-only; verificar com teste que imprime e confirma os tokens mascarados
 - [x] 3.2 Implementar `train.py` com config, `--dry-run` em CPU, erro claro sem CUDA no QLoRA e tracking JSON; verificar o dry-run localmente
 - [ ] 3.3 Fazer a selecção do modelo base: zero-shot no dev em ≥2 candidatos (CPU/amostra ou notebook) com tabela de licenças e memória; verificar a tabela em `reports/`
-- [ ] 3.4 Criar o notebook GPU com versões fixadas (treino, avaliação, exportação); verificar a execução no Colab/Kaggle, ou registar a pendência
+- [x] 3.4 Criar o notebook GPU com versões fixadas (treino, avaliação, exportação); verificar a execução no Colab/Kaggle, ou registar a pendência (notebook fixado; pendente execução GPU, registada em `docs/case-study.md`)
 - [x] 3.5 Escrever `docs/learn/03-tokenizacao-e-chat-templates.md`, `04-loss-mascarada-completion-only.md`, `05-lora-por-dentro.md`, `06-quantizacao-e-qlora.md` e `07-hiperparametros-e-dev-set.md`; verificar os exemplos de tokens com o dry-run
 
 ## 4. Avaliação

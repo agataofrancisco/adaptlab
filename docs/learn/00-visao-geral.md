@@ -19,8 +19,9 @@ Sai, neste momento, medido:
 - Dry-run de treino em CPU: `status: ok`, máscara verificada (ver `04`).
 - 43 testes a passar (`tests/`), ruff sem erros.
 
-Por fazer, com estado registado (ver "Estado" abaixo): treino real e avaliação em GPU,
-serviço, publicação.
+Implementação de API e UI em modo demo está disponível. Permanecem por fazer a revisão humana
+do dataset, a comparação final dos modelos, o treino e a avaliação em GPU e a validação de
+deployment (ver "Estado" abaixo).
 
 ## Como funciona por dentro
 
@@ -40,10 +41,10 @@ scripts/train.py           ──► adaptlab/training/trainer.py  (GPU: QLoRA N
 runs/<id>/  (config.json, environment.json, metrics.json, adapter/)   ← tracking
       │
       ▼
-scripts/evaluate.py  (baselines + LoRA no mesmo teste)                  ← em construção
+scripts/evaluate.py  (baselines + zero/few-shot + LoRA)
       │
       ▼
-api/ (FastAPI /predict, /model-card, /health, /metrics), ui/            ← por construir
+api/ (FastAPI /predict, /model-card, /health, /metrics), ui/            ← implementados
 ```
 
 Código comum: `adaptlab/schema.py` (label e parsing defensivo) e
@@ -81,10 +82,11 @@ primeira importação de `transformers`/`trl` é lenta.
 | Dados e splits | feito, verificado |
 | Revisão PT-AO | **pendente** (pessoa revisora; ver `data/review/`) |
 | Dry-run CPU | feito, verificado |
-| Selecção do modelo base | tabela feita; zero-shot `TODO: medir` |
+| Selecção do modelo base | amostra exploratória n=20 para Qwen 0.5B; comparação ≥2 modelos pendente |
 | Treino QLoRA real | **pendente** (GPU; notebook pronto, não executado) |
-| Avaliação e relatório | por fazer |
-| API, UI, publicação | por fazer |
+| Avaliação e relatório | regras medidas; zero-shot exploratório; few-shot e LoRA pendentes |
+| API e UI | implementadas em modo demo |
+| Publicação | condicionada a treino, avaliação e revisão humana |
 
 ## Como falha
 
