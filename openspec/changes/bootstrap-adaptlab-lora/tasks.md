@@ -38,7 +38,7 @@
 
 ## 6. Entrega
 
-- [x] 6.1 Dockerfile da API (modo demo), CI (Ruff, pytest, dry-run, validação de dados e fugas; avaliação completa só manual); verificar a validade (2026-11-27: YAML válido e todos os passos do CI corridos localmente: ruff, `prepare_data.py --check`, pytest 93 passed, `train.py --dry-run`; API demo testada sem torch/transformers. Pendente: `docker build` não executado, daemon Docker indisponível)
+- [x] 6.1 Dockerfile da API (modo demo), CI (Ruff, pytest, dry-run, validação de dados e fugas; avaliação completa só manual); verificar a validade (2026-11-27: YAML válido e todos os passos do CI corridos localmente: ruff, `prepare_data.py --check`, pytest 93 passed, `train.py --dry-run`; API demo testada sem torch/transformers. `docker build` + `docker run` OK em 2026-11-27: imagem sem torch, utilizador `appuser`, `/health` e `/model-card` 200)
 - [x] 6.2 `README.md`, `docs/architecture.md`, `docs/decisions.md` e `docs/case-study.md`; verificar os comandos
 - [x] 6.3 `docs/learn/10-perguntas-de-entrevista.md` (≥25); verificar a consistência
 - [x] 6.4 Revisão independente (fugas de dados, licenças, honestidade das métricas, modo demo); verificar que os achados estão resolvidos ou documentados

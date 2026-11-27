@@ -28,7 +28,7 @@ regras e um modelo maior com prompt, com custo e latência aceitáveis?
   baseline de regras, que usa o dev completo. Qwen 1.5B não concluiu o download; few-shot continua
   sem medição real. Os detalhes e a run estão em `reports/model_selection.md`.
 - **Revisão humana PT-AO**: uma pessoa tem de a fazer. O tooling está pronto.
-- **Build do Docker e execução da CI**: não há Docker local nem runner do GitHub.
+- **Execução da CI no GitHub**: não correu (conta GitHub bloqueada por faturação). O build Docker foi verificado em 2026-11-27.
 - **Revisão independente** (tarefa 6.4): não pode ser feita por quem implementou.
 
 ## Resultado até agora
