@@ -67,7 +67,7 @@ flowchart LR
 ## Tech stack
 
 Python 3.12 · PyTorch · Hugging Face transformers, TRL, PEFT and datasets · bitsandbytes (GPU
-notebook) · scikit-learn · FastAPI · Pydantic v2 · pytest · Ruff · Docker · GitHub Actions
+notebook) · scikit-learn · FastAPI · Pydantic v2 · pytest · Ruff · Docker
 
 ## Run it locally (CPU)
 
@@ -93,8 +93,6 @@ docker run -p 127.0.0.1:8000:8000 adaptlab-api
 **GPU training:** open the pinned notebook in [`notebooks/`](notebooks/) on Colab or Kaggle (T4).
 
 ## Quality checks
-
-The same steps run in CI:
 
 ```powershell
 .venv\Scripts\ruff check adaptlab scripts tests api
