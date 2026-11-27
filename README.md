@@ -1,89 +1,118 @@
 # AdaptLab
 
-Fine-tuning LoRA/QLoRA de um modelo pequeno (0,5B) para classificar mensagens de apoio ao cliente
-de uma operadora **fictícia** (Mukua Telecom), com dados sintéticos, comparação justa com
-baselines e critério de paragem se o LoRA não ganhar.
+**LoRA/QLoRA fine-tuning of a small (0.5B) model done the disciplined way: leak-checked synthetic
+data, fair baselines, a test set read only once, and a stopping rule that kills the project if
+LoRA doesn't win.**
 
-Estado actual: pipeline de dados, dry-run de treino, baseline de regras, API demo e UI estão
-feitos e verificados. O treino real em GPU e a avaliação com modelo estão **pendentes** (não há
-GPU local): ver `reports/evaluation.md` e `docs/learn/00-visao-geral.md`.
+A fictional telecom operator, **Mukua Telecom**, needs to route customer messages written in Angolan
+Portuguese, full of slang, typos and English code-switching, into intents and entities. The
+question this project asks is: does a small model with LoRA beat a rules baseline and a prompted
+model, at acceptable cost and latency? And will we accept "no" as an answer?
 
-## Instalação (Windows, CPU)
+> All data is synthetic. Status: the data pipeline, CPU training dry-run, baselines, demo API, UI
+> and Docker image are done and verified. The real GPU training run is **pending** because there's
+> no local GPU. The notebook is ready for Colab or Kaggle.
 
+## Highlights
+
+- **A leak-proof dataset.** 688 synthetic examples from 28 scenarios and 56 templates.
+  - Splits are by scenario, not by row, with duplicate and near-duplicate detection.
+  - The test set is hash-locked.
+  - An artificial-leak test proves the detector actually works.
+- **Completion-only loss, verified.** A test prints the masked tokens. In the dry-run, 191 prompt
+  tokens are masked and 51 carry labels, using the real Qwen2.5 chat template and TRL code path.
+- **Fair comparison by design.** The same parsing and metrics apply to rules, zero-shot, few-shot
+  and LoRA:
+  - macro-F1 with bootstrap CIs,
+  - entity F1,
+  - valid-JSON rate,
+  - high-risk recall,
+  - latency and cost.
+- **Test-set discipline.** The test split can only be read with `--final`. Each read is logged, and
+  a second read needs an explicit, recorded reason.
+- **A stopping rule.** If LoRA doesn't beat the best baseline by 0.02 macro-F1 on dev, the publish
+  gate blocks the release and the negative result is reported.
+- **Serving.** A FastAPI API with a real PEFT mode and a `precomputed_demo` mode that runs without a
+  GPU, plus a side-by-side UI comparing the base and adapted models.
+
+## Results so far (dev split)
+
+| Approach | Macro-F1 (intent) | 95% CI | Entity F1 | High-risk recall | Source |
+|---|---|---|---|---|---|
+| Rules (keywords + regex) | **0.8351** | [0.773, 0.881] | 0.9696 | 0.6275 | full dev set |
+| Qwen2.5-0.5B zero-shot (CPU) | 0.1803 | [0.146, 0.210] | 0.5098 | 0.4118 | 60-example stratified sample, exploratory |
+| Few-shot (k=5) | `TODO: measure` | | | | |
+| QLoRA adapter | `TODO: measure` (needs GPU) | | | | |
+
+**The bar LoRA has to clear is 0.835, not 0.18.** A cheap rules baseline gave a real number early
+and keeps the fine-tune honest. The zero-shot model collapses most intents into one class. The confusion matrix is in the run's
+`metrics.json`, summarised in [`reports/model_selection.md`](reports/model_selection.md). Every number
+traces to a run folder under [`runs/`](runs/).
+
+## Pipeline
+
+```mermaid
+flowchart LR
+    G[Scenario templates<br/>PT-AO slang, noise, EN mix] --> P[prepare_data.py<br/>dedup + leak checks]
+    P --> S[Splits by scenario<br/>test hash-locked]
+    S --> T[train.py<br/>QLoRA, completion-only loss]
+    S --> E[evaluate.py<br/>same metrics for all]
+    B[Baselines<br/>rules, zero-shot, few-shot] --> E
+    T --> E
+    E --> GATE{Stopping rule<br/>LoRA wins by 0.02?}
+    GATE -->|yes| PUB[Export adapter + model card]
+    GATE -->|no| NEG[Report negative result]
 ```
+
+## Tech stack
+
+Python 3.12 · PyTorch · Hugging Face transformers, TRL, PEFT and datasets · bitsandbytes (GPU
+notebook) · scikit-learn · FastAPI · Pydantic v2 · pytest · Ruff · Docker · GitHub Actions
+
+## Run it locally (CPU)
+
+```powershell
 python -m venv .venv
 .venv\Scripts\python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
-.venv\Scripts\python -m pip install --no-compile -e ".[train,eval,serve,dev]"
-```
+.venv\Scripts\python -m pip install -e ".[train,eval,serve,dev]"
 
-## Comandos
-
-```
-.venv\Scripts\python scripts\prepare_data.py --check        # gerar e validar dados (não escreve)
-.venv\Scripts\python scripts\prepare_data.py                # escreve data/processed e o dataset card
-.venv\Scripts\python scripts\train.py --dry-run             # treino em CPU: tokenização, máscara, 2 passos
+.venv\Scripts\python scripts\prepare_data.py --check            # generate + validate data, writes nothing
+.venv\Scripts\python scripts\train.py --dry-run                 # CPU: tokenisation, loss mask, 2 LoRA steps
 .venv\Scripts\python scripts\evaluate.py --approach rules --split dev
-.venv\Scripts\python scripts\evaluate.py --report           # reports/evaluation.md
-.venv\Scripts\python scripts\build_demo_fixtures.py --run runs\eval-rules-dev-XXXX
-.venv\Scripts\python -m pytest tests                        # testes
-.venv\Scripts\ruff check adaptlab scripts tests api         # lint
+.venv\Scripts\python scripts\evaluate.py --report               # reports/evaluation.md
 ```
 
-Treino real (QLoRA NF4), só no notebook com GPU: `notebooks/train_colab.ipynb`
-(`scripts/train.py --config configs/train_gpu.yaml`). Sem CUDA o script falha com mensagem clara.
+**Demo API in Docker** (verified on 2026-11-27: it builds without torch, runs as a non-root user,
+and `/health` and `/model-card` return 200):
 
-API e UI (modo demo, sem modelo):
-
-```
-set ADAPTLAB_MODE=demo
-.venv\Scripts\python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
-.venv\Scripts\streamlit run ui\app.py
+```powershell
+docker build -t adaptlab-api .
+docker run -p 127.0.0.1:8000:8000 adaptlab-api
 ```
 
-## Autenticação
+**GPU training:** open the pinned notebook in [`notebooks/`](notebooks/) on Colab or Kaggle (T4).
 
-A API é uma **demonstração só para localhost**. **Não tem autenticação, autorização, limite de pedidos
-nem CORS configurado.** `/predict`, `/health`, `/metrics` e `/model-card` são públicos para quem
-conseguir ligar-se ao serviço. Por isso:
+## Quality checks
 
-- Por omissão escuta em `127.0.0.1` (`python -m api.main` e os comandos acima usam `--host 127.0.0.1`).
-- Não expor a porta à rede. No Docker, publicar só em localhost: `docker run -p 127.0.0.1:8000:8000 adaptlab-api`.
-- Antes de qualquer exposição fora de localhost: autenticação, limites de pedidos e revisão de segurança
-  (ver `docs/security-self-review.md`, secção 5).
+The same steps run in CI:
 
-## Avaliação final do teste (auditável)
-
-O conjunto de teste só se lê com `--final`. Cada leitura fica registada em `runs/final_eval_log.jsonl`
-(data, commit git, hash da configuração, modelo/adapter, hash do teste). Uma nova leitura depois da
-primeira exige `--allow-retest "<motivo>"`, que também fica registado. O relatório mostra quantas vezes
-o teste foi lido (ver `docs/decisions.md`, D21).
-
-```
-.venv\Scripts\python scripts\evaluate.py --approach rules --split test --final
-.venv\Scripts\python scripts\evaluate.py --approach rules --split test --final --allow-retest "motivo"
+```powershell
+.venv\Scripts\ruff check adaptlab scripts tests api
+.venv\Scripts\python -m pytest tests          # 93 tests, including the artificial leak and the dry-run
 ```
 
-Modo real: `ADAPTLAB_MODE=real` e `ADAPTLAB_ADAPTER_DIR=<pasta do adapter>`. Sem GPU não é
-possível. No modo demo, cada resposta vem marcada `precomputed_demo`.
+## Known limitations
 
-## Estrutura
+- **No GPU run yet:** without the QLoRA numbers, the main question is still open.
+- **Second candidate missing:** Qwen2.5-1.5B wasn't measured because its download didn't finish, so
+  base-model selection is provisional.
+- **Lexicon not reviewed:** the Angolan Portuguese lexicon still needs a native reviewer. The
+  tooling and the 40-example sample are ready.
 
-- `adaptlab/` código: `data/` (dataset, splits, fugas, revisão), `training/` (formato,
-  dry-run, treino, tracking), `evaluation/` (métricas, regras, abordagens, paragem, relatório),
-  `serving/` (predictores), `publication/` (portão e model card), `schema.py` (label).
-- `api/` FastAPI, `ui/` Streamlit, `scripts/` pontos de entrada, `configs/` YAML.
-- `data/` dataset gerado e card, `reports/` relatórios, `runs/` metadados de runs (adapters ignorados).
-- `docs/learn/` documentação de aprendizagem (00 a 10). `openspec/` planeamento.
+## Documentation
 
-## Dados e licenças
-
-- Dados sintéticos gerados por `scripts/prepare_data.py`. Sem dados pessoais.
-- Modelo base: `Qwen/Qwen2.5-0.5B-Instruct` (Apache-2.0), commit fixado em `configs/train.yaml`.
-- Licença do dataset: CC-BY-4.0 (proposta, a confirmar).
-- Publicação: bloqueada até o critério de paragem ser aprovado e haver confirmação manual
-  (`scripts/export_adapter.py --check-publication --confirm`). Nada é enviado automaticamente.
-
-## Documentação
-
-`docs/learn/` (explicações e perguntas de entrevista), `docs/architecture.md`,
-`docs/decisions.md`, `docs/case-study.md`, `data/DATASET_CARD.md`, `reports/model_card.md`.
+- [`docs/architecture.md`](docs/architecture.md), [`docs/decisions.md`](docs/decisions.md),
+  [`docs/case-study.md`](docs/case-study.md), [`data/DATASET_CARD.md`](data/DATASET_CARD.md)
+- [`docs/learn/`](docs/learn/) (Portuguese): when to fine-tune, synthetic data and leaks,
+  tokenisation and chat templates, completion-only loss, LoRA internals, quantisation and QLoRA,
+  hyperparameters, evaluation and baselines, and serving adapters, plus interview questions.
