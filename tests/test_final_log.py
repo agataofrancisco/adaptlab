@@ -56,6 +56,11 @@ def _args(**overrides: object) -> argparse.Namespace:
         "run_dir": None,
         "limit": 0,
         "allow_retest": None,
+        "sample": 0,
+        "seed": 42,
+        "model": None,
+        "revision": None,
+        "dtype": "float32",
         "report": False,
     }
     base.update(overrides)

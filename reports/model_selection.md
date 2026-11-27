@@ -8,7 +8,7 @@ falta uma medição, está `TODO: medir`.
 
 | Modelo | Parâmetros (API) | Licença (tag) | Acesso | Chat template | Peso bf16 (estimado) | Peso NF4 (estimado) | Zero-shot macro-F1 dev |
 |---|---|---|---|---|---|---|---|
-| Qwen/Qwen2.5-0.5B-Instruct | 494 032 768 | apache-2.0 | aberto | sim (verificado) | ~0,99 GB | ~0,25 GB | 0,1524* |
+| Qwen/Qwen2.5-0.5B-Instruct | 494 032 768 | apache-2.0 | aberto | sim (verificado) | ~0,99 GB | ~0,25 GB | 0,1803 (n=60, float32)** · 0,1524 (n=20, bf16)* |
 | Qwen/Qwen2.5-1.5B-Instruct | 1 543 714 304 | apache-2.0 | aberto | sim (verificado) | ~3,1 GB | ~0,8 GB | TODO: medir (download incompleto) |
 | google/gemma-3-1b-it | 999 885 952 | gemma (termos próprios) | restrito (manual) | TODO: verificar (repo restrito) | ~2,0 GB | ~0,5 GB | fora de alcance sem aceitação dos termos |
 | meta-llama/Llama-3.2-1B-Instruct | 1 235 814 400 | llama3.2 (licença própria) | restrito (manual) | TODO: verificar (repo restrito) | ~2,5 GB | ~0,6 GB | fora de alcance sem aceitação dos termos |
@@ -47,6 +47,16 @@ A tentativa equivalente do Qwen 1.5B usou revisão
 `989aa7980e4cf806f80c7fef2b1adb7bc71aa306`, mas o download ficou parado num shard incompleto
 depois de 0 bytes durante vários minutos. A execução foi interrompida sem gerar resultados;
 nenhum valor de desempenho é inferido para esse candidato.
+
+## Medição CPU com 60 exemplos — 2026-11-23
+
+`0,1803**` é macro-F1 de intent numa amostra estratificada de 60 exemplos do dev (`seed=42`,
+float32 no CPU, mesma revisão do 0,5B). Run:
+`runs/eval-zero_shot-dev-20261123T100013152841Z-d4e3aa/metrics.json` (com `predictions.jsonl`).
+Valores da run: IC bootstrap da macro-F1 0,1462–0,2101; F1 de entidades 0,5098; JSON válido
+0,90; recall de alto risco 0,4118 (17 positivos); latência média 32,3 s por exemplo em CPU.
+A confusão mostra o modelo a colapsar quase tudo em `cancelamento`; continua a ser só
+exploratório e não substitui a comparação com o segundo candidato.
 
 ## Licenças a verificar antes de publicar
 

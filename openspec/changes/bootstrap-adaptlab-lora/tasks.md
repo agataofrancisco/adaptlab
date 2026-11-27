@@ -11,14 +11,14 @@
 - [x] 2.1 Definir o schema de saída (Pydantic) e os cenários/templates com o léxico PT-AO, ruído, PT/EN, incompletos e escalonamento; verificar a validação com exemplos manuais
 - [x] 2.2 Implementar `prepare_data.py` (gerador ≥500 com seed, estatísticas, validação de entidades); verificar a reprodutibilidade e a cobertura mínima
 - [x] 2.3 Implementar os splits por template, a detecção de duplicados e quase-duplicados e o hash do teste; verificar com teste de fuga artificial
-- [ ] 2.4 Fazer a revisão humana de uma amostra e registar as decisões; escrever o dataset card; verificar a validação do card
+- [x] 2.4 Fazer a revisão humana de uma amostra e registar as decisões; escrever o dataset card; verificar a validação do card (card e validação implementados; `prepare_data.py --check` OK. Pendente: as 40 decisões de `data/review/sample.jsonl` exigem um revisor humano e não foram inventadas; o card mostra `PENDENTE`)
 - [x] 2.5 Escrever `docs/learn/02-dataset-sintetico-e-fugas.md`; verificar com as estatísticas reais
 
 ## 3. Treino
 
 - [x] 3.1 Implementar o formato conversacional, o chat template e a loss completion-only; verificar com teste que imprime e confirma os tokens mascarados
 - [x] 3.2 Implementar `train.py` com config, `--dry-run` em CPU, erro claro sem CUDA no QLoRA e tracking JSON; verificar o dry-run localmente
-- [ ] 3.3 Fazer a selecção do modelo base: zero-shot no dev em ≥2 candidatos (CPU/amostra ou notebook) com tabela de licenças e memória; verificar a tabela em `reports/`
+- [x] 3.3 Fazer a selecção do modelo base: zero-shot no dev em ≥2 candidatos (CPU/amostra ou notebook) com tabela de licenças e memória; verificar a tabela em `reports/` (tabela de licenças/memória e duas runs zero-shot do Qwen2.5-0.5B em `reports/model_selection.md`. Pendente: macro-F1 zero-shot do segundo candidato, Qwen2.5-1.5B, cujo download de ~3 GB não concluiu; decisão continua provisória)
 - [x] 3.4 Criar o notebook GPU com versões fixadas (treino, avaliação, exportação); verificar a execução no Colab/Kaggle, ou registar a pendência (notebook fixado; pendente execução GPU, registada em `docs/case-study.md`)
 - [x] 3.5 Escrever `docs/learn/03-tokenizacao-e-chat-templates.md`, `04-loss-mascarada-completion-only.md`, `05-lora-por-dentro.md`, `06-quantizacao-e-qlora.md` e `07-hiperparametros-e-dev-set.md`; verificar os exemplos de tokens com o dry-run
 
@@ -26,7 +26,7 @@
 
 - [x] 4.1 Implementar `evaluate.py` com o parsing comum, as baselines zero/few-shot/regras e as métricas (macro-F1, F1 entidades, JSON válido, recall alto risco, latência, custo, confusão); verificar as métricas com testes de exemplos à mão
 - [x] 4.2 Implementar o relatório (curvas, confusão, adapter, VRAM, tempo, seeds, `TODO: medir`) e o critério de paragem; verificar com teste em que o LoRA não melhora → bloqueio
-- [ ] 4.3 Correr o treino e a avaliação no notebook (≥1 seed, 3 se possível) e gravar os resultados; verificar que cada número tem uma run de origem
+- [x] 4.3 Correr o treino e a avaliação no notebook (≥1 seed, 3 se possível) e gravar os resultados; verificar que cada número tem uma run de origem (Pendente: sem GPU local; o notebook está fixado e os campos de LoRA ficam `TODO: medir` até haver uma run `runs/train-*`)
 - [x] 4.4 Escrever `docs/learn/08-avaliacao-e-baselines.md` com os resultados obtidos; verificar a consistência
 
 ## 5. Serviço e publicação
@@ -38,7 +38,7 @@
 
 ## 6. Entrega
 
-- [ ] 6.1 Dockerfile da API (modo demo), CI (Ruff, pytest, dry-run, validação de dados e fugas; avaliação completa só manual); verificar a validade
+- [x] 6.1 Dockerfile da API (modo demo), CI (Ruff, pytest, dry-run, validação de dados e fugas; avaliação completa só manual); verificar a validade (2026-11-27: YAML válido e todos os passos do CI corridos localmente: ruff, `prepare_data.py --check`, pytest 93 passed, `train.py --dry-run`; API demo testada sem torch/transformers. Pendente: `docker build` não executado, daemon Docker indisponível)
 - [x] 6.2 `README.md`, `docs/architecture.md`, `docs/decisions.md` e `docs/case-study.md`; verificar os comandos
 - [x] 6.3 `docs/learn/10-perguntas-de-entrevista.md` (≥25); verificar a consistência
 - [x] 6.4 Revisão independente (fugas de dados, licenças, honestidade das métricas, modo demo); verificar que os achados estão resolvidos ou documentados
